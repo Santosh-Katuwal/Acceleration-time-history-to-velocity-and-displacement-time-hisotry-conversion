@@ -3,13 +3,33 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 data=pd.read_csv('chichi.csv')
+acc=data.acc_g #acceleration: g
+a=acc*981 #acceleration: cm/s^2
 
-vel=np.cumsum(data.acc)
-disp=np.cumsum(vel)
+#time step
+dt=data.t[1]-data.t[0]
+#velocity time history
+v=np.cumsum(a)*dt #unit of velocity: cm/sec
+#displacement time history
+d=np.cumsum(v)*dt #unit of displacement: cm
 
-plt.subplot(3,1,1)
-plt.plot(data.t,data.acc)
-plt.subplot(3,1,2)
-plt.plot(data.t,vel)
-plt.subplot(3,1,3)
-plt.plot(data.t,disp)
+#plotting
+plt.figure(figsize=(8,8))
+plt.subplot(311)
+plt.plot(data.t,acc) #acceleration in g
+plt.xlabel('t')
+plt.ylabel('acc(g)')
+
+#plotting velocity time history
+plt.subplot(312)
+plt.plot(data.t,v) #acceleration in g
+plt.xlabel('t')
+plt.ylabel('velocity(cm/s)')
+
+#plotting displacement time history
+plt.subplot(313)
+plt.plot(data.t,d) #acceleration in g
+plt.xlabel('t')
+plt.ylabel('displacement(cm)')
+
+plt.tight_layout()
